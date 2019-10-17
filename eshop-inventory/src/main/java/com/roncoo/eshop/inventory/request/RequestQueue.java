@@ -9,7 +9,7 @@ import java.util.concurrent.ArrayBlockingQueue;
  * @author Administrator
  *
  */
-public class  RequestQueue {
+public class RequestQueue {
 
 	/**
 	 * 内存队列

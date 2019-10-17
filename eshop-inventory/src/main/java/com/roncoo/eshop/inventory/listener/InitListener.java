@@ -3,8 +3,6 @@ package com.roncoo.eshop.inventory.listener;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 
 import com.roncoo.eshop.inventory.thread.RequestProcessorThreadPool;
 
