@@ -63,4 +63,11 @@ public class ProductInventoryDBUpdateRequest implements Request {
 		productInventoryService.updateProductInventory(productInventory);  
 	}
 	
+	/**
+	 * 获取商品id
+	 */
+	public Integer getProductId() {
+		return productInventory.getProductId();
+	}
+	
 }

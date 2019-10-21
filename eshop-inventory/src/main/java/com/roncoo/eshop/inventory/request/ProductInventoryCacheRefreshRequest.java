@@ -33,4 +33,8 @@ public class ProductInventoryCacheRefreshRequest implements Request {
 		productInventoryService.setProductInventoryCache(productInventory); 
 	}
 	
+	public Integer getProductId() {
+		return productId;
+	}
+	
 }
