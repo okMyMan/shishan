@@ -52,9 +52,9 @@ public class Application {
     @Bean
 	public JedisCluster JedisClusterFactory() {
 		Set<HostAndPort> jedisClusterNodes = new HashSet<HostAndPort>();
-		jedisClusterNodes.add(new HostAndPort("192.168.31.19", 7003));
-		jedisClusterNodes.add(new HostAndPort("192.168.31.19", 7004));
-		jedisClusterNodes.add(new HostAndPort("192.168.31.227", 7006));
+        jedisClusterNodes.add(new HostAndPort("192.168.1.8", 7001));
+        jedisClusterNodes.add(new HostAndPort("192.168.1.12", 7003));
+        jedisClusterNodes.add(new HostAndPort("192.168.1.9", 7005));
 		JedisCluster jedisCluster = new JedisCluster(jedisClusterNodes);
 		return jedisCluster;
 	}
