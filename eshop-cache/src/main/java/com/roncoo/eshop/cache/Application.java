@@ -29,7 +29,7 @@ public class Application {
     @Bean
     @ConfigurationProperties(prefix="spring.datasource")
     public DataSource dataSource() {
-        return new org.apache.tomcat.jdbc.pool.DataSource();
+        return new DataSource();
     }
     
     @Bean
