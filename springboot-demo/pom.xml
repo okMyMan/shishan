@@ -1,0 +1,193 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  	<modelVersion>4.0.0</modelVersion>
+
+  	<groupId>com.zhss.springboot</groupId>
+  	<artifactId>springboot-demo</artifactId>
+  	<version>0.0.1-SNAPSHOT</version>
+  	<packaging>jar</packaging>
+
+  	<name>springboot-demo</name>
+  	<url>http://maven.apache.org</url>
+
+  	<properties>
+    	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>1.8</java.version>
+  	</properties>
+
+	<!-- 继承spring boot的父工程 -->
+	<!-- spring boot父工程直接约束了常用依赖的版本 -->
+	<!-- 声明了一对<dependencyManagement>，声明了一堆依赖的版本号 -->
+	<!-- 声明了<pluginManagement> -->
+
+	<!--如果要继承自己的parent工程，而不是直接继承spring-boot-starter-parent，
+	那么可以考虑使用import方式，将spring-boot-start-parent中的dependency management引入进来。
+	但是这样的话，就没法用到plugin management了-->
+
+	<!--<dependencyManagement>
+		    <dependencies>
+		       <dependency>
+		           &lt;!&ndash; Import dependency management from Spring Boot &ndash;&gt;
+		           <groupId>org.springframework.boot</groupId>
+		           <artifactId>spring-boot-dependencies</artifactId>
+		           <version>1.5.9.RELEASE</version>
+		           <type>pom</type>
+		           <scope>import</scope>
+		       </dependency>
+		   </dependencies>
+	</dependencyManagement>-->
+
+
+	<parent>
+	    <groupId>org.springframework.boot</groupId>
+	    <artifactId>spring-boot-starter-parent</artifactId>
+	    <version>1.5.9.RELEASE</version>
+	</parent>
+	
+	<dependencies>
+		<!-- 添加一个支持web应用的spring boot依赖 -->
+		<!-- spring boot会根据我们引入的依赖，判断出来我们要开发一个web工程 -->
+		<!-- 接着会对web工程需要的东西，给我们自动配置和整合好包括spring mvc，web.xml，内嵌的tomcat服务器，自动进行配置 -->
+		<!-- 一会儿我们直接写一个spring mvc的controller，然后启动一个main类，spring boot直接就给我们启动一个tomcat服务器，然后部署这个web工程，访问浏览器，直接就可以测试了 -->
+		<!-- 自动化将我们可能需要的一些web相关的依赖，都自动给我们引入进来了，负责说那些依赖的版本都是兼容 -->
+	    <dependency>
+	        <groupId>org.springframework.boot</groupId>
+	        <artifactId>spring-boot-starter-web</artifactId>
+	    </dependency>
+	    <dependency>
+	        <groupId>org.springframework.boot</groupId>
+	        <artifactId>spring-boot-devtools</artifactId>
+	        <optional>true</optional>
+	    </dependency>
+	    <!-- 引入mybatis-spring-boot-starter依赖，用于mybatis与spring boot整合 -->
+		<dependency>
+		    <groupId>org.mybatis.spring.boot</groupId>
+		    <artifactId>mybatis-spring-boot-starter</artifactId>
+		    <version>1.3.1</version>
+		</dependency>
+		<!-- 引入mysql驱动依赖 -->
+		<dependency>  
+		    <groupId>mysql</groupId>  
+		    <artifactId>mysql-connector-java</artifactId>  
+		    <scope>runtime</scope>  
+		</dependency>
+		<!-- 引入spring-boot-starter-data-jpa依赖 -->
+		<dependency>  
+		    <groupId>org.springframework.boot</groupId>  
+		    <artifactId>spring-boot-starter-data-jpa</artifactId>  
+		</dependency>
+		<!-- 引入阿里的druid连接池依赖 -->
+		<dependency>  
+		    <groupId>com.alibaba</groupId>  
+		    <artifactId>druid</artifactId>  
+		    <version>1.1.6</version>  
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-jdbc</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-test</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>com.alibaba</groupId>
+		    <artifactId>fastjson</artifactId>
+		    <version>1.2.45</version>
+		</dependency>
+		<dependency>
+	        <groupId>org.springframework.boot</groupId>
+	        <artifactId>spring-boot-starter-actuator</artifactId>
+	    </dependency>
+	</dependencies>
+	
+	<!-- 引入一个spring boot插件，可以支持我们打包程序 -->
+	<!-- 打包时是需要将所有依赖的第三方jar包都打进来的，spring boot这个插件可以支持 -->
+	<!-- 支持我们将jar包打成一个包含所有依赖的可以执行的一个jar包 -->
+	<build>
+	    <plugins>
+	        <plugin>
+	            <groupId>org.springframework.boot</groupId>
+	            <artifactId>spring-boot-maven-plugin</artifactId>
+	            <!-- 默认情况下，打包之后，是直接将devtools排除在外的 -->
+	            <!-- 但是加了这个东东之后，就会将devtools给打到jar包里去，部署到服务器上之后，devtools生效的 -->
+	            <!--  
+	            <configuration>
+	                <excludeDevtools>false</excludeDevtools>
+	            </configuration>
+	            -->
+	        </plugin>
+	    </plugins>
+	</build>
+</project>
+
+
+
+
+
+
+
+
+
+
+<!--
+
+13、让系统在代码变化的时候自动重启（常见于本地开发和调试）
+
+如果我们的应用程序使用了devtools，此时如果在IDE中直接启动，则会认为是开发调试过程。则此时如果classpath中的任何一个文件变化了，就会自动重启应用程序。在IDE中启动程序的时候，这个功能时很有用的，因为我们启动了一个web程序之后，会随时调试和修改代码，代码修改之后，不需要手动重启，web程序自己就重启了
+
+但是上面介绍中也说了，打成一个jar包，java -jar启动一个jar包，对于执行jar包的情况下，spring boot会认为这是生产环境，则不会启用devtools的任何功能，包括这个自动重启功能
+
+devtools使用了两个classloader来加载类，一个是base classloader来加载第三方依赖的类；一个是restart classloader来加载我们自己编写的文件。如果我们自己编写的文件改动了，则此时会重新创建一个restart classloader来重新加载我们的类，这个速度是很快的，因为base classloader是始终保持的，不需要重新加载第三方依赖的类
+
+如果要排除掉某些资源文件的变动不要自动重启，那么可以进行如下的配置，application.properties
+
+spring.devtools.restart.exclude=static/**,public/**
+
+如果要彻底禁用自动重启功能，需要做如下配置，application.properties
+
+spring.devtools.restart.enabled=false
+
+14、将本地修改的代码同步到远程服务器上部署的应用
+
+devtools也可以用来管理远程机器部署的系统，如果要启用远程系统管理支持，需要进行如下配置，下面的配置可以确保说打包后的程序是包含devtools的。但是要记住的一点是，使用devtools管理远程部署的系统，是比较危险的，尤其在生产环境中，一般强烈建议不要基于devtools来管理
+
+你在eclipse里面修改代码，直接就可以将修改后的代码，热同步到远程服务器上启动的spring boot应用中去。绝对绝对不要用于生产环境。如果你要用于测试环境，假设你要修复bug，速度要快一些，可以用这个功能，直接将本地修复好bug的代码同步到测试服务器上的spring boot应用中去。
+
+Git工作流，集成测试，develop在本地复现代码，commit提交，push到远程gitlab上的分支上去跟别人的代码做集成，接着再次部署这个develop分支的代码到咱们的测试服务器上去。也不支持去用这个功能
+
+ 
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-devtools</artifactId>
+    </dependency>
+</dependencies>
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <configuration>
+                <excludeDevtools>false</excludeDevtools>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
+
+然后还需要设置一个参数
+
+ 
+spring.devtools.remote.secret=123456
+
+做了上面的配置之后，如果我们将这个程序打包后，在我们的某台机器上启动，此时会基于devtools暴露出来一个可以连接的端口，如果我们设置了上面的那个参数之后，这个远程服务器上的服务组件，就会自动启用
+
+然后我们需要在本地手动运行一个客户端组件，一般就是在IDE中启动即可，在IDE中需要使用run configurations，对我们的应用程序，使用org.springframework.boot.devtools.RemoteSpringApplication，作为main class。同时将http://localhost:8080/作为启动参数传递过去
+
+此时连接上以后，一个好处就是，如果在本地写代码，会直接将更新后的代码文件传输到远程机器上然后自动进行重启
+
+这个功能其实怎么说呢，一般是不建议使用的，因为较为鸡肋
+
+
+
+-->
